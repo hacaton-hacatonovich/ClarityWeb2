@@ -6,8 +6,8 @@ import (
 )
 
 func Routes() {
-	fs := http.FileServer(http.Dir("/resources"))
-	http.Handle("/resources/", http.StripPrefix("/resources", fs))
+	fs := http.FileServer(http.Dir("./resources"))
+	http.Handle("/resources/", fs)
 	http.HandleFunc("/", Controllers.ShowMainPage)
-
+	http.HandleFunc("/portfolio_modification", Controllers.ShowModificationPortfolioPage)
 }

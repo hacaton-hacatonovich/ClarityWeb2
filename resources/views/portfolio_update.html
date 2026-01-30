@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редизайн сайтов | We Build the Web</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --gray-light: #e9ecef;
+      --border-radius: 12px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.12);
+      --transition: all 0.3s ease;
+      --header-height: 40px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: #fefefe;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 14px 32px;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn i {
+      margin-left: 8px;
+    }
+
+    /* Header */
+    header {
+      background-color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: var(--transition);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav li {
+      margin-left: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: var(--transition);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero section */
+    .portfolio-hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f5f7ff 0%, #f0f2ff 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 0;
+    }
+
+    .portfolio-hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(114, 9, 183, 0.1) 100%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .portfolio-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      padding: 20px;
+    }
+
+    .portfolio-subtitle {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 3rem;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      cursor: pointer;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-10px);}
+      60% {transform: translateY(-5px);}
+    }
+
+    /* Полноэкранные примеры */
+    .redesign-container {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 80px 0;
+    }
+
+    .redesign-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .redesign-content {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 60px;
+      align-items: center;
+      width: 100%;
+      padding: 0 40px;
+      max-width: 1600px;
+      margin: 0 auto;
+      height: 80vh;
+    }
+
+    .redesign-info {
+      padding: 60px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: var(--border-radius);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      justify-content: flex-start;
+    }
+
+    .redesign-info::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .redesign-info::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    .redesign-info::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+
+    .redesign-badge {
+      display: inline-block;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
+
+    .badge-ecommerce {
+      background: linear-gradient(135deg, rgba(67, 97, 238, 0.15), rgba(114, 9, 183, 0.15));
+      color: var(--primary);
+    }
+
+    .badge-corporate {
+      background: linear-gradient(135deg, rgba(247, 37, 133, 0.15), rgba(114, 9, 183, 0.15));
+      color: var(--accent);
+    }
+
+    .badge-service {
+      background: linear-gradient(135deg, rgba(76, 201, 240, 0.15), rgba(67, 97, 238, 0.15));
+      color: #4cc9f0;
+    }
+
+    .badge-education {
+      background: linear-gradient(135deg, rgba(233, 196, 106, 0.15), rgba(247, 127, 0, 0.15));
+      color: #f77f00;
+    }
+
+    .redesign-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .redesign-stat {
+      text-align: center;
+      flex: 1;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+
+    /* Сравнение до/после */
+    .comparison-container {
+      position: relative;
+      height: 100%;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .comparison-slider {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: var(--border-radius);
+      flex: 1;
+    }
+
+    .before-after {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .before-section,
+    .after-section {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .before-section {
+      overflow: hidden;
+    }
+
+
+    .before-section {
+      left: 0;
+      width: 50%; /* стартовое значение */
+      z-index: 2;
+    }
+
+    .after-section {
+      left: 0;
+      z-index: 1;
+    }
+
+    .comparison-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .section-label {
+      position: absolute;
+      top: 20px;
+      padding: 10px 25px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 50px;
+      z-index: 2;
+    }
+
+    .before-label {
+      left: 20px;
+      background: rgba(231, 111, 81, 0.9);
+    }
+
+    .after-label {
+      right: 20px;
+      background: rgba(67, 97, 238, 0.9);
+    }
+
+    .slider-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      background: white;
+      cursor: col-resize;
+      z-index: 10;
+      transform: translateX(-50%);
+    }
+
+    .slider-handle::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .slider-handle::after {
+      content: '⇄';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.2rem;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    /* Детали редизайна */
+    .redesign-details {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .detail-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      flex-shrink: 0;
+      color: white;
+    }
+
+    /* Навигация между примерами */
+    .redesign-nav {
+      position: fixed;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .nav-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .nav-dot:hover {
+      background: rgba(255, 255, 255, 0.5);
+      transform: scale(1.2);
+    }
+
+    .nav-dot.active {
+      background: white;
+      transform: scale(1.3);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    .nav-dot::after {
+      content: attr(data-title);
+      position: absolute;
+      right: 25px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .nav-dot:hover::after {
+      opacity: 1;
+    }
+
+    /* Кнопки навигации */
+    .nav-arrows {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 100;
+    }
+
+    .nav-arrow {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--primary);
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-arrow:hover {
+      background: white;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Футер */
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 80px 0 40px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 25px;
+    }
+
+    .footer-text {
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 600px;
+      margin: 0 auto 50px;
+      font-size: 1.1rem;
+    }
+
+    .portfolio-hero,
+    .redesign-container,
+    footer {
+      scroll-margin-top: var(--header-height);
+    }
+
+    .copyright {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1400px) {
+      .redesign-content {
+        gap: 40px;
+        padding: 0 30px;
+      }
+
+      .redesign-info {
+        padding: 40px;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .redesign-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        height: 70vh;
+      }
+
+      .redesign-info {
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      h1 {
+        font-size: 3rem;
+      }
+
+      h2 {
+        font-size: 2.2rem;
+      }
+
+      .redesign-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .redesign-info {
+        max-width: 100%;
+        margin: 0 auto;
+        height: auto;
+        max-height: 50vh;
+      }
+
+      .comparison-container {
+        height: 50vh;
+        max-width: 100%;
+        margin: 0 auto;
+        order: -1;
+      }
+
+      .nav-arrows {
+        bottom: 20px;
+      }
+
+      .nav-arrow {
+        width: 50px;
+        height: 50px;
+      }
+
+      .redesign-nav {
+        right: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        color: var(--dark);
+        cursor: pointer;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .portfolio-hero-content {
+        padding: 0 20px;
+      }
+
+      .redesign-content {
+        padding: 0 20px;
+        gap: 30px;
+      }
+
+      .redesign-info {
+        padding: 25px;
+        max-height: 60vh;
+      }
+
+      .comparison-container {
+        height: 40vh;
+      }
+
+      .redesign-stats {
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+      }
+
+      .section-label {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .comparison-container {
+        height: 35vh;
+      }
+
+      .nav-arrows {
+        bottom: 10px;
+      }
+
+      .nav-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+
+      .redesign-nav {
+        right: 15px;
+      }
+
+      .nav-dot {
+        width: 10px;
+        height: 10px;
+      }
+
+      .section-label {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+      }
+
+      .before-label {
+        left: 10px;
+      }
+
+      .after-label {
+        right: 10px;
+      }
+
+      .redesign-info {
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+    }
+
+    @media (max-height: 700px) {
+      .redesign-content {
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .comparison-container {
+        height: 50vh;
+      }
+
+      .redesign-info {
+        max-height: 40vh;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container header-container">
+    <a href="#" class="logo">WebBuilders</a>
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="portfolio.html">Наши работы</a></li>
+        <li><a href="redesign.html" class="active">Редизайн</a></li>
+        <li><a href="index.html#contact">Контакты</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Герой секция -->
+<section class="portfolio-hero">
+  <div class="portfolio-hero-content">
+    <h1>Редизайн сайтов</h1>
+    <p class="portfolio-subtitle">Увидьте, как мы преобразовываем устаревшие сайты в современные, эффективные и конверсионные платформы. Каждый проект — это значительное улучшение пользовательского опыта и бизнес-показателей.</p>
+    <div class="scroll-indicator start-btn">
+      <i class="fas fa-chevron-down fa-2x" style="color: var(--primary);"></i>
+    </div>
+  </div>
+</section>
+
+<!-- 1. Редизайн интернет-магазина -->
+<div class="redesign-container" id="redesign1">
+  <div class="redesign-wrapper">
+    <div class="container redesign-content">
+      <div class="comparison-container">
+        <div class="comparison-slider" id="slider1">
+          <div class="before-after">
+            <div class="before-section">
+              <div class="section-label before-label">ДО редизайна</div>
+              <div class="comparison-placeholder" style="
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                ">
+                <div style="text-align: center; padding: 20px;">
+                  <i class="fas fa-shopping-cart fa-3x" style="margin-bottom: 20px;"></i>
+                  <div>Старый дизайн магазина</div>
+                  <div style="font-size: 0.9rem; margin-top: 10px;">Устаревший интерфейс<br>Сложная навигация<br>Медленная загрузка</div>
+                </div>
+              </div>
+            </div>
+            <div class="after-section">
+              <div class="section-label after-label">ПОСЛЕ редизайна</div>
+              <div class="comparison-placeholder" style="
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                ">
+                <div style="text-align: center; padding: 20px;">
+                  <i class="fas fa-store fa-3x" style="margin-bottom: 20px;"></i>
+                  <div>Современный дизайн</div>
+                  <div style="font-size: 0.9rem; margin-top: 10px;">Чистый интерфейс<br>Интуитивная навигация<br>Высокая скорость</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slider-handle"></div>
+        </div>
+      </div>
+      <div class="redesign-info">
+        <span class="redesign-badge badge-ecommerce">Интернет-магазин</span>
+        <h2>Fashion Store Redesign</h2>
+        <p>Полная трансформация интернет-магазина одежды из устаревшего каталога в современную торговую платформу с улучшенным UX и повышенной конверсией.</p>
+
+        <div class="redesign-details">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <div>
+              <h4>Ускорение загрузки</h4>
+              <p>Время загрузки страниц сокращено с 4.2 до 1.8 секунд</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+              <h4>Рост конверсии</h4>
+              <p>Увеличение конверсии на 67% благодаря улучшенному UX</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div>
+              <h4>Адаптивный дизайн</h4>
+              <p>Полная оптимизация для мобильных устройств</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="redesign-stats">
+          <div class="redesign-stat">
+            <span class="stat-value">+67%</span>
+            <div class="stat-label">Конверсия</div>
+          </div>
+          <div class="redesign-stat">
+            <span class="stat-value">-58%</span>
+            <div class="stat-label">Отказы</div>
+          </div>
+          <div class="redesign-stat">
+            <span class="stat-value">3.1x</span>
+            <div class="stat-label">Мобильные продажи</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Редизайн корпоративного сайта -->
+<div class="redesign-container" id="redesign2">
+  <div class="redesign-wrapper">
+    <div class="container redesign-content">
+      <div class="comparison-container">
+        <div class="comparison-slider" id="slider2">
+          <div class="before-after">
+            <div class="before-section">
+              <div class="section-label before-label">ДО редизайна</div>
+              <div class="comparison-placeholder" style="
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                ">
+                <div style="text-align: center; padding: 20px;">
+                  <i class="fas fa-building fa-3x" style="margin-bottom: 20px;"></i>
+                  <div>Старый корпоративный сайт</div>
+                  <div style="font-size: 0.9rem; margin-top: 10px;">Сложная структура<br>Устаревший контент<br>Плохая навигация</div>
+                </div>
+              </div>
+            </div>
+            <div class="after-section">
+              <div class="section-label after-label">ПОСЛЕ редизайна</div>
+              <div class="comparison-placeholder" style="
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(135deg, #84fab0, #8fd3f4);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                ">
+                <div style="text-align: center; padding: 20px;">
+                  <i class="fas fa-briefcase fa-3x" style="margin-bottom: 20px;"></i>
+                  <div>Современная платформа</div>
+                  <div style="font-size: 0.9rem; margin-top: 10px;">Четкая структура<br>Актуальный контент<br>Простая навигация</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slider-handle"></div>
+        </div>
+      </div>
+      <div class="redesign-info">
+        <span class="redesign-badge badge-corporate">Корпоративный сайт</span>
+        <h2>Tech Solutions Redesign</h2>
+        <p>Преобразование устаревшего корпоративного сайта IT-компании в современную бизнес-платформу с улучшенным представлением услуг и командой.</p>
+
+        <div class="redesign-details">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <div>
+              <h4>SEO оптимизация</h4>
+              <p>Увеличение органического трафика на 215% за 6 месяцев</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div>
+              <h4>Улучшение UX</h4>
+              <p>Время на сайте увеличено на 2.4 минуты</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+              <h4>Рост лидов</h4>
+              <p>Количество заявок увеличилось на 89%</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="redesign-stats">
+          <div class="redesign-stat">
+            <span class="stat-value">+215%</span>
+            <div class="stat-label">Органический трафик</div>
+          </div>
+          <div class="redesign-stat">
+            <span class="stat-value">+89%</span>
+            <div class="stat-label">Заявки</div>
+          </div>
+          <div class="redesign-stat">
+            <span class="stat-value">2.4м</span>
+            <div class="stat-label">Время на сайте</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Редизайн сервисного сайта -->
+<div class="redesign-container" id="redesign3">
+  <div class="redesign-wrapper">
+    <div class="container redesign-content">
+      <div class="comparison-container">
+        <div class="comparison-slider" id="slider3">
+          <div class="before-after">
+            <div class="before-section">
+              <div class="section-label before-label">ДО редизайна</div>
+              <div class="comparison-placeholder" style="
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                ">
+                <div style="text-align: center; padding: 20px;">
+                  <i class="fas fa-tools fa-3x" style="margin-bottom: 20px;"></i>
+                  <div>Старый сервисный сайт</div>
+                  <div style="font-size: 0.9rem; margin-top: 10px;">Сложная запись<br>Непонятные услуги<br>Плохой юзабилити</div>
+                </div>
+              </div>
+            </div>
+            <div class="after-section">
+              <div class="section-label after-label">ПОСЛЕ редизайна</div>
+              <div class="comparison-placeholder" style="
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(135deg, #fdcbf1, #e6dee9);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                ">
+                <div style="text-align: center; padding: 20px;">
+                  <i class="fas fa-calendar-check fa-3x" style="margin-bottom: 20px;"></i>
+                  <div>Современный сервис</div>
+                  <div style="font-size: 0.9rem; margin-top: 10px;">Простая запись<br>Четкие услуги<br>Отличное юзабилити</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slider-handle"></div>
+        </div>
+      </div>
+      <div class="redesign-info">
+        <span class="redesign-badge badge-service">Сервисный сайт</span>
+        <h2>Service Booking Redesign</h2>
+        <p>Модернизация сайта по записи на услуги с упрощением процесса бронирования и улучшением пользовательского интерфейса.</p>
+
+        <div class="redesign-details">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <h4>Ускорение записи</h4>
+              <p>Время оформления заявки сокращено с 5 до 1.5 минут</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div>
+              <h4>Увеличение бронирований</h4>
+              <p>Количество онлайн-записей выросло на 142%</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <div>
+              <h4>Улучшение рейтинга</h4>
+              <p>Пользовательская оценка выросла с 3.2 до 4.7 звезд</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="redesign-stats">
+          <div class="redesign-stat">
+            <span class="stat-value">-70%</span>
+            <div class="stat-label">Время записи</div>
+          </div>
+          <div class="redesign-stat">
+            <span class="stat-value">+142%</span>
+            <div class="stat-label">Онлайн-записи</div>
+          </div>
+          <div class="redesign-stat">
+            <span class="stat-value">4.7★</span>
+            <div class="stat-label">Оценка</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Редизайн образовательной платформы -->
+<div class="redesign-container" id="redesign4">
+  <div class="redesign-wrapper">
+    <div class="container redesign-content">
+      <div class="comparison-container">
+        <div class="comparison-slider" id="slider4">
+          <div class="before-after">
+            <div class="before-section">
+              <div class="section-label before-label">ДО редизайна</div>
+              <div class="comparison-placeholder" style="
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(135deg, #a8edea, #fed6e3);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                ">
+                <div style="text-align: center; padding: 20px;">
+                  <i class="fas fa-graduation-cap fa-3x" style="margin-bottom: 20px;"></i>
+                  <div>Старая учебная платформа</div>
+                  <div style="font-size: 0.9rem; margin-top: 10px;">Сложная навигация<br>Устаревший контент<br>Плохая мобильная версия</div>
+                </div>
+              </div>
+            </div>
+            <div class="after-section">
+              <div class="section-label after-label">ПОСЛЕ редизайна</div>
+              <div class="comparison-placeholder" style="
+                                    width: 100%;
+                                    height: 100%;
+                                    background: linear-gradient(135deg, #d4fc79, #96e6a1);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+                                ">
+                <div style="text-align: center; padding: 20px;">
+                  <i class="fas fa-laptop-code fa-3x" style="margin-bottom: 20px;"></i>
+                  <div>Современная LMS</div>
+                  <div style="font-size: 0.9rem; margin-top: 10px;">Интуитивная навигация<br>Современный контент<br>Идеальная мобильная версия</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slider-handle"></div>
+        </div>
+      </div>
+      <div class="redesign-info">
+        <span class="redesign-badge badge-education">Образовательная платформа</span>
+        <h2>Learning Platform Redesign</h2>
+        <p>Трансформация устаревшей образовательной платформы в современную систему управления обучением (LMS) с улучшенным UX.</p>
+
+        <div class="redesign-details">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div>
+              <h4>Рост студентов</h4>
+              <p>Количество активных студентов увеличилось на 185%</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div>
+              <h4>Улучшение завершения</h4>
+              <p>Процент завершения курсов вырос с 32% до 78%</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div>
+              <h4>Мобильное обучение</h4>
+              <p>67% студентов теперь используют мобильные устройства</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="redesign-stats">
+          <div class="redesign-stat">
+            <span class="stat-value">+185%</span>
+            <div class="stat-label">Активные студенты</div>
+          </div>
+          <div class="redesign-stat">
+            <span class="stat-value">+144%</span>
+            <div class="stat-label">Завершение курсов</div>
+          </div>
+          <div class="redesign-stat">
+            <span class="stat-value">67%</span>
+            <div class="stat-label">Мобильные пользователи</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Навигация -->
+<div class="redesign-nav">
+  <div class="nav-dot active" data-title="Магазин" data-target="redesign1"></div>
+  <div class="nav-dot" data-title="Корпорация" data-target="redesign2"></div>
+  <div class="nav-dot" data-title="Сервис" data-target="redesign3"></div>
+  <div class="nav-dot" data-title="Образование" data-target="redesign4"></div>
+</div>
+
+<!-- <div class="nav-arrows">
+    <button class="nav-arrow prev-arrow">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    <button class="nav-arrow next-arrow">
+        <i class="fas fa-chevron-down"></i>
+    </button>
+</div> -->
+
+<!-- Футер -->
+<footer>
+  <div class="container">
+    <div class="footer-logo">WebBuilders</div>
+    <p class="footer-text">Мы создаем современные, безопасные и масштабируемые веб-решения, которые помогают нашим клиентам достигать их бизнес-целей.</p>
+
+    <div class="copyright">
+      &copy; 2023 We Build the Web. Все права защищены.
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.comparison-slider').forEach(slider => {
+    const handle = slider.querySelector('.slider-handle');
+    const before = slider.querySelector('.before-section');
+    let dragging = false;
+
+    const update = x => {
+      const rect = slider.getBoundingClientRect();
+      let percent = ((x - rect.left) / rect.width) * 100;
+      percent = Math.max(0, Math.min(100, percent));
+
+      before.style.width = percent + '%';
+      handle.style.left = percent + '%';
+
+      before.style.visibility = percent < 1 ? 'hidden' : 'visible';
+    };
+
+    handle.addEventListener('mousedown', () => dragging = true);
+    window.addEventListener('mouseup', () => dragging = false);
+    window.addEventListener('mousemove', e => dragging && update(e.clientX));
+
+    handle.addEventListener('touchstart', () => dragging = true);
+    window.addEventListener('touchend', () => dragging = false);
+    window.addEventListener('touchmove', e => dragging && update(e.touches[0].clientX));
+  });
+
+
+
+  const hero = document.querySelector('.portfolio-hero');
+  const redesigns = [...document.querySelectorAll('.redesign-container')];
+  const footer = document.querySelector('footer');
+
+  const slides = [hero, ...redesigns, footer];
+  const dots = document.querySelectorAll('.nav-dot');
+
+  const startBtn = document.querySelector('.start-btn');
+  if (startBtn) {
+    startBtn.addEventListener('click', e => {
+      e.preventDefault();
+      goTo(1);
+    });
+  }
+
+  let current = 0;
+  let isScrolling = false;
+
+  const goTo = index => {
+    if (index < 0 || index >= slides.length) return;
+
+    isScrolling = true;
+    current = index;
+
+    slides[index].scrollIntoView({ behavior: 'smooth' });
+
+    dots.forEach(d => d.classList.remove('active'));
+    if (index > 0 && index <= redesigns.length) {
+      dots[index - 1].classList.add('active');
+    }
+
+    setTimeout(() => isScrolling = false, 900);
+  };
+
+
+  const isFooterVisible = () => {
+    const footer = document.querySelector('footer');
+    const rect = footer.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom > 0;
+  };
+
+  const canScroll = (el, deltaY) => {
+    if (!el) return false;
+
+    const { scrollTop, scrollHeight, clientHeight } = el;
+
+    if (deltaY < 0 && scrollTop > 0) return true; // вверх
+    if (deltaY > 0 && scrollTop + clientHeight < scrollHeight) return true; // вниз
+
+    return false;
+  };
+
+  window.addEventListener('wheel', e => {
+    if (isScrolling) return;
+
+    const scrollable = e.target.closest('.redesign-info');
+
+    // если внутри блока есть куда скроллить — НЕ переключаем слайд
+    if (canScroll(scrollable, e.deltaY)) return;
+
+    if (e.deltaY > 0) goTo(current + 1);
+    else goTo(current - 1);
+  }, { passive: true });
+
+
+
+
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      goTo(index + 1);
+    });
+  });
+
+</script>
+</body>
+</html>
