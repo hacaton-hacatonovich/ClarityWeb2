@@ -1183,4 +1183,66 @@
         </nav>
     </div>
 </header>
+<script>
+const burgerBtn = document.getElementById('burgerBtn');
+    const closeMenuBtn = document.getElementById('closeMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+
+    // Функция открытия меню
+    function openMobileMenu() {
+        mobileMenu.classList.add('active');
+        menuOverlay.classList.add('active');
+        document.body.classList.add('menu-open');
+        document.body.style.overflow = 'hidden'; // Блокируем скролл на фоне
+    }
+
+    // Функция закрытия меню
+    function closeMobileMenu() {
+        mobileMenu.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        document.body.style.overflow = ''; // Возвращаем скролл
+    }
+
+    // Открытие меню по клику на бургер
+    burgerBtn.addEventListener('click', openMobileMenu);
+
+    // Закрытие меню по клику на крестик
+    closeMenuBtn.addEventListener('click', closeMobileMenu);
+
+    // Закрытие меню по клику на оверлей
+    menuOverlay.addEventListener('click', closeMobileMenu);
+
+    // Закрытие меню по клику на ссылку
+    mobileMenuLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Закрытие меню при нажатии на Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    });
+
+    // Плавная прокрутка для якорных ссылок
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });    
+</script>
 {{end}}
