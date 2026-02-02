@@ -9,12 +9,20 @@ func GetAbsolutPath(format string) string {
 	path, _ := os.Getwd()
 	sb := strings.Builder{}
 	sb.WriteString(path)
-	sb.WriteString("/resources/")
 	switch format {
 	case "views":
-		sb.WriteString("views/")
+
+		sb.WriteString("/resources/views/")
 	case "image":
-		sb.WriteString("images/")
+
+		sb.WriteString("/resources/images/")
+	case "default":
+
+		sb.WriteString("/")
+	case "logs":
+		sb.WriteString("/logs/")
+	case "applications":
+		sb.WriteString("/storage/files/applications.json")
 	}
 	return sb.String()
 }

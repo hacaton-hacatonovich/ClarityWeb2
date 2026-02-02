@@ -187,8 +187,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Электронная почта *</label>
-                    <input type="email" id="email" class="form-control" required placeholder="example@company.com">
+                    <label for="phone">Номер телефона *</label>
+                    <input type="tel" id="phone" class="form-control" required placeholder="">
                 </div>
 
                 <div class="form-group">
@@ -338,7 +338,7 @@
 
 <footer>
     <div class="container">
-        <div class="footer-logo">WebBuilders</div>
+        <div class="footer-logo">ClarityWeb</div>
         <p class="footer-text">Мы создаем современные, безопасные и масштабируемые веб-решения, которые помогают нашим клиентам достигать их бизнес-целей.</p>
 
         <div class="copyright">
@@ -646,29 +646,53 @@
     // Форма обратной связи
     const contactForm = document.getElementById('contactForm');
 
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Собираем данные формы
         const name = document.getElementById('name').value;
         const company = document.getElementById('company').value;
-        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
         const message = document.getElementById('message').value;
+        console.log(name)
+        console.log(company)
+        console.log(phone)
+        console.log(message)
+        // Получаем выбранные темы (чекбоксы)
+        const selectedTopics = Array.from(document.querySelectorAll('input[name="topic"]:checked'))
+            .map(checkbox => checkbox.value);
 
         // Получаем выбранную тематику
         const selectedTheme = document.querySelector('input[name="theme"]:checked');
-        const theme = selectedTheme ? selectedTheme.value : 'не выбрана';
+        const theme = selectedTheme ? selectedTheme.value : '';
 
         // Получаем цвета
         const color1 = document.getElementById('color1').value;
         const color2 = document.getElementById('color2').value;
         const color3 = document.getElementById('color3').value;
 
+        // Собираем ссылки
+        const linkItems = document.querySelectorAll('.link-item span');
+        const links = Array.from(linkItems).map(item => item.textContent);
+
         // Проверяем обязательные поля
-        if (!name || !email || !message || !company) {
+        if (!name || !phone || !message || !company) {
             notifications.showError('Ошибка отправки', 'Пожалуйста, заполните все обязательные поля (имя, компания, email, сообщение).', 5000);
             return;
         }
+
+        // Подготавливаем данные для отправки
+        const formData = {
+            name,
+            company,
+            phone,
+            message,
+            topics: selectedTopics,
+            theme,
+            colors: [color1, color2, color3],
+            links,
+            timestamp: new Date().toISOString()
+        };
 
         // Имитация отправки
         const submitBtn = contactForm.querySelector('.submit-btn');
@@ -680,42 +704,74 @@
         // Показываем уведомление о начале отправки
         const sendingNotification = notifications.showInfo('Отправка заявки', 'Ваша заявка отправляется...', 10000);
 
-        // В реальном приложении здесь был бы AJAX-запрос
-        setTimeout(() => {
-            // Формируем сообщение с данными
-            let dataSummary = `Заявка успешно отправлена!\n\n`;
-            dataSummary += `Имя: ${name}\n`;
-            dataSummary += `Компания: ${company}\n`;
-            dataSummary += `Email: ${email}\n`;
-            dataSummary += `Тематика: ${theme}\n`;
-            dataSummary += `Цвета: ${color1}, ${color2}, ${color3}\n`;
-            dataSummary += `Ссылки: ${links.length > 0 ? links.join(', ') : 'не указаны'}`;
+        try {
+            // Отправляем AJAX запрос
+            const response = await fetch('/form_processing', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
 
             // Закрываем уведомление о отправке
             notifications.closeNotification(sendingNotification);
 
-            // Показываем уведомление об успешной отправке
-            notifications.showSuccess('Заявка отправлена!', 'Мы свяжемся с вами в ближайшее время для обсуждения деталей.', 7000);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-            // Показываем сводку данных
-            setTimeout(() => {
-                notifications.showInfo('Сводка данных', dataSummary, 10000);
-            }, 1000);
+            const result = await response.json();
 
-            // Сбрасываем форму
-            contactForm.reset();
+            // Если сервер вернул успешный ответ
+            if (result.success) {
+                notifications.showSuccess('Заявка отправлена!', 'Мы свяжемся с вами в ближайшее время для обсуждения деталей.', 5000);
 
-            // Очищаем список ссылок
-            links.length = 0;
-            linksList.innerHTML = '';
+                // Показываем сводку данных
+                const dataSummary = `Заявка успешно отправлена!\n\nИмя: ${name}\nКомпания: ${company}\nEmail: ${email}\nТемы: ${selectedTopics.join(', ') || 'не выбраны'}\nТематика: ${theme || 'не выбрана'}\nЦвета: ${color1}, ${color2}, ${color3}\nСсылки: ${links.length > 0 ? links.join(', ') : 'не указаны'}`;
 
-            // Сбрасываем выделения
-            colorPalettes.forEach(p => p.classList.remove('selected'));
-            themeOptions.forEach(opt => opt.classList.remove('selected'));
+                setTimeout(() => {
+                    notifications.showInfo('Сводка данных', dataSummary, 8000);
+                }, 1000);
 
+                // Очищаем форму
+                contactForm.reset();
+
+                // Очищаем список ссылок
+                const linksList = document.getElementById('linksList');
+                if (linksList) linksList.innerHTML = '';
+
+                // Сбрасываем выделения
+                const colorPalettes = document.querySelectorAll('.color-palette');
+                const themeOptions = document.querySelectorAll('.theme-option');
+                colorPalettes.forEach(p => p.classList.remove('selected'));
+                themeOptions.forEach(opt => opt.classList.remove('selected'));
+
+                // Редирект на страницу благодарности, если сервер указал URL
+                if (result.redirectUrl) {
+                    setTimeout(() => {
+                        window.location.href = result.redirectUrl;
+                    }, 2000);
+                } else {
+                    // Или стандартный редирект через 3 секунды
+                    setTimeout(() => {
+                        window.location.href = '/thank-you.html';
+                    }, 3000);
+                }
+            } else {
+                // Если сервер вернул ошибку
+                notifications.showError('Ошибка отправки', result.message || 'Произошла ошибка при отправке формы.', 5000);
+            }
+        } catch (error) {
+            // Обработка ошибок сети или парсинга
+            console.error('Ошибка при отправке формы:', error);
+            notifications.closeNotification(sendingNotification);
+            notifications.showError('Ошибка сети', 'Не удалось отправить форму. Пожалуйста, проверьте подключение к интернету и попробуйте снова.', 5000);
+        } finally {
+            // Восстанавливаем кнопку в любом случае
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
-        }, 1500);
+        }
     });
 
     const burgerBtn = document.getElementById('burgerBtn');
@@ -741,22 +797,30 @@
     }
 
     // Открытие меню по клику на бургер
-    burgerBtn.addEventListener('click', openMobileMenu);
+    if (burgerBtn) {
+        burgerBtn.addEventListener('click', openMobileMenu);
+    }
 
     // Закрытие меню по клику на крестик
-    closeMenuBtn.addEventListener('click', closeMobileMenu);
+    if (closeMenuBtn) {
+        closeMenuBtn.addEventListener('click', closeMobileMenu);
+    }
 
     // Закрытие меню по клику на оверлей
-    menuOverlay.addEventListener('click', closeMobileMenu);
+    if (menuOverlay) {
+        menuOverlay.addEventListener('click', closeMobileMenu);
+    }
 
     // Закрытие меню по клику на ссылку
-    mobileMenuLinks.forEach(link => {
-        link.addEventListener('click', closeMobileMenu);
-    });
+    if (mobileMenuLinks) {
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+    }
 
     // Закрытие меню при нажатии на Escape
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+        if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('active')) {
             closeMobileMenu();
         }
     });
@@ -780,3 +844,4 @@
     });
 </script>
 </body>
+</html>
